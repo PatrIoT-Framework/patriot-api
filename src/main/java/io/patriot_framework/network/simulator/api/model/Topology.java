@@ -18,7 +18,6 @@ package io.patriot_framework.network.simulator.api.model;
 
 import io.patriot_framework.network.simulator.api.model.devices.Device;
 import io.patriot_framework.network.simulator.api.model.devices.router.Router;
-import io.patriot_framework.network.simulator.api.model.network.TopologyNetwork;
 
 import java.util.ArrayList;
 import java.util.HashSet;
