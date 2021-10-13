@@ -21,7 +21,6 @@ import com.github.jgonian.ipmath.Ipv4Range;
 import io.patriot_framework.network.simulator.api.api.iproute.RouteRestController;
 import io.patriot_framework.network.simulator.api.control.Controller;
 import io.patriot_framework.network.simulator.api.model.EnvironmentPart;
-import io.patriot_framework.network.simulator.api.model.Topology;
 import io.patriot_framework.network.simulator.api.model.devices.Device;
 import io.patriot_framework.network.simulator.api.model.devices.router.NetworkInterface;
 import io.patriot_framework.network.simulator.api.model.devices.router.Router;

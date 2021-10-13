@@ -20,7 +20,6 @@ import io.patriot_framework.network.simulator.api.builder.CalcRouteBuilder;
 import io.patriot_framework.network.simulator.api.builder.NetworkBuilder;
 import io.patriot_framework.network.simulator.api.builder.RouterBuilder;
 import io.patriot_framework.network.simulator.api.builder.TopologyBuilder;
-import io.patriot_framework.network.simulator.api.model.Topology;
 import io.patriot_framework.network.simulator.api.model.devices.router.Router;
 import io.patriot_framework.network.simulator.api.model.devices.router.RouterImpl;
 import io.patriot_framework.network.simulator.api.model.routes.CalcRoute;

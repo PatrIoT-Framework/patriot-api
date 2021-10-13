@@ -18,7 +18,6 @@ package io.patriot_framework.hub;
 
 
 import io.patriot_framework.network.simulator.api.manager.Manager;
-import io.patriot_framework.network.simulator.api.model.Topology;
 import io.patriot_framework.network.simulator.api.model.devices.application.Application;
 
 import java.io.IOException;

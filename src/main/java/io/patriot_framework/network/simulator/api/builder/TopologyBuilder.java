@@ -16,8 +16,6 @@
 
 package io.patriot_framework.network.simulator.api.builder;
 
-import io.patriot_framework.network.simulator.api.model.Topology;
-
 /**
  * The type Topology builder.
  */
