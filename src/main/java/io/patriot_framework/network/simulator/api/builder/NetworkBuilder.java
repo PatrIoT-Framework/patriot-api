@@ -16,7 +16,6 @@
 
 package io.patriot_framework.network.simulator.api.builder;
 
-import io.patriot_framework.network.simulator.api.CalculatedRouteList;
 import io.patriot_framework.network.simulator.api.model.routes.CalcRoute;
 
 /**
