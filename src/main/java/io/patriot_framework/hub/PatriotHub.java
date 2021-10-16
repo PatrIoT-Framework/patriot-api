@@ -18,7 +18,7 @@ package io.patriot_framework.hub;
 
 
 import io.patriot_framework.network.simulator.api.manager.Manager;
-import io.patriot_framework.network.simulator.api.model.Topology;
+import io.patriot_framework.network.simulator.api.model.MainTopology;
 import io.patriot_framework.network.simulator.api.model.devices.application.Application;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class PatriotHub {
     private Manager manager;
     private DeviceRegistry registry;
     private ApplicationRegistry apps;
-    private Topology topology;
+    private MainTopology mainTopology;
 
     private Properties properties;
     private static final String PATRIOT_ROUTER_TAG = "patriotframework/patriot-router:latest";
@@ -103,16 +103,16 @@ public class PatriotHub {
         return singleton;
     }
 
-    public void deployTopology(Topology top) {
-        if (topology != null) {
+    public void deployTopology(MainTopology top) {
+        if (mainTopology != null) {
             throw new IllegalArgumentException("Topology already deployed");
         }
-        topology = top;
+        mainTopology = top;
         manager.deployTopology(top);
     }
 
     public void deployApplication(Application app, String networkName, String tag, List<String> envVars) {
-        Optional<TopologyNetwork> net = topology.getNetworks().stream().filter(it -> it.getName().equals(networkName)).findFirst();
+        Optional<TopologyNetwork> net = mainTopology.getNetworks().stream().filter(it -> it.getName().equals(networkName)).findFirst();
         if (!net.isPresent()) {
             return;
         }
@@ -120,7 +120,7 @@ public class PatriotHub {
             envVars = new ArrayList<>();
         }
 
-        manager.deployDeviceToNetwork(app, net.get(), topology, tag, envVars);
+        manager.deployDeviceToNetwork(app, net.get(), mainTopology, tag, envVars);
         apps.putDevice(app);
     }
 
@@ -146,7 +146,7 @@ public class PatriotHub {
      * Method cleans up all resources and destroys its instance
      */
     public void destroyHub() {
-        manager.cleanUp(topology);
+        manager.cleanUp(mainTopology);
         singleton = null;
     }
 
