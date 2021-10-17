@@ -111,6 +111,7 @@ public class PatriotHub {
         manager.deployTopology(top);
     }
 
+    @Deprecated
     public void deployApplication(Application app, String networkName, String tag, List<String> envVars) {
         Optional<TopologyNetwork> net = mainTopology.getNetworks().stream().filter(it -> it.getName().equals(networkName)).findFirst();
         if (!net.isPresent()) {
@@ -124,10 +125,12 @@ public class PatriotHub {
         apps.putDevice(app);
     }
 
+    @Deprecated
     public void deployApplication(Application app, String networkName, String tag) {
         deployApplication(app, networkName, tag, null);
     }
 
+    @Deprecated
     public Application getApplication(String name) {
         return apps.getDevice(name);
     }

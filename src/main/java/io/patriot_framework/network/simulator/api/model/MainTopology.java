@@ -16,23 +16,25 @@
 
 package io.patriot_framework.network.simulator.api.model;
 
-import java.util.Set;
+import io.patriot_framework.network.simulator.api.manager.TopologyManager;
+
+import java.util.Hashtable;
 
 /**
- * Class representing main topology that consists of collection of topologies deployed inside various environments (docker, kubernetes...)
+ * Class representing main topology that consists of collection of topologies (with topology managers) deployed inside various environments (docker, kubernetes...)
  */
 public class MainTopology {
-    private Set<Topology> topologies;
+    private Hashtable<Topology, TopologyManager> topologies;
 
-    public Set<Topology> getTopologies() {
+    public Hashtable<Topology, TopologyManager> getTopologies() {
         return topologies;
     }
 
-    public void setTopologies(Set<Topology> topologies) {
+    public void setTopologies(Hashtable<Topology, TopologyManager> topologies) {
         this.topologies = topologies;
     }
 
-    public void addTopology(Topology topology) {
-        topologies.add(topology);
+    public void addTopology(Topology topology, TopologyManager manager) {
+        topologies.put(topology, manager);
     }
 }

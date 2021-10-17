@@ -16,14 +16,33 @@
 
 package io.patriot_framework.network.simulator.api.manager;
 
+import io.patriot_framework.network.simulator.api.model.MainTopology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Manager is used for managing topology (deploying, destroying).
  */
 public class Manager {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private Set<TopologyManager> topologyManagers = new HashSet<>();
+    private MainTopology mainTopology;
+
+
+    public void deployMainTopology(MainTopology mainTopology) {
+        mainTopology
+                .getTopologies()
+                .forEach((topology, manager) -> manager.deployTopology(topology));
+    }
+
+    public void cleanUpMainTopology(MainTopology mainTopology) {
+        mainTopology
+                .getTopologies()
+                .forEach((topology, manager) -> manager.cleanUp(topology));
+    }
 
 
 }
