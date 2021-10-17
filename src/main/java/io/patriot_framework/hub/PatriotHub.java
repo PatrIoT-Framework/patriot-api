@@ -19,13 +19,9 @@ package io.patriot_framework.hub;
 
 import io.patriot_framework.network.simulator.api.manager.Manager;
 import io.patriot_framework.network.simulator.api.model.MainTopology;
-import io.patriot_framework.network.simulator.api.model.devices.application.Application;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +29,7 @@ import java.util.logging.Logger;
 /**
  * Entry interface to the Patriot Framework
  * It contains all controlling APIs that are available to use
- *
+ * <p>
  * The class implements singleton design pattern, which means there is
  * always at most one PatriotHub within one JVM process
  */
@@ -49,7 +45,6 @@ public class PatriotHub {
     private MainTopology mainTopology;
 
     private Properties properties;
-    private static final String PATRIOT_ROUTER_TAG = "patriotframework/patriot-router:latest";
 
     public DeviceRegistry getRegistry() {
         return registry;
@@ -61,9 +56,10 @@ public class PatriotHub {
 
     /**
      * Private constructor to build singleton instance
+     *
      * @throws PropertiesNotLoadedException thrown when property io.patriot_framework.router is not defined
      */
-    private PatriotHub() throws PropertiesNotLoadedException  {
+    private PatriotHub() throws PropertiesNotLoadedException {
 
         properties = new Properties();
         IOException exception = null;
@@ -80,19 +76,13 @@ public class PatriotHub {
         }
         properties.putAll(System.getProperties());
 
-        manager = new Manager((properties.containsKey("io.patriot_framework.router") ?
-                properties.getProperty("io.patriot_framework.router") : PATRIOT_ROUTER_TAG));
-        if (properties.containsKey("io.patriot_framework.monitoring.addr")) {
-            manager.setMonitoring(properties.getProperty("io.patriot_framework.monitoring.addr"),
-                    Integer.valueOf(properties.getProperty("io.patriot_framework.monitoring.port")));
-        }
-
         registry = new DeviceRegistry();
         apps = new ApplicationRegistry();
     }
 
     /**
      * Singleton accessor
+     *
      * @return PatriotHub instance, this cannot return null
      * @throws PropertiesNotLoadedException when creation of instance fails due to missing property
      */
@@ -108,37 +98,13 @@ public class PatriotHub {
             throw new IllegalArgumentException("Topology already deployed");
         }
         mainTopology = top;
-        manager.deployTopology(top);
+        manager.deployMainTopology(top);
     }
-
-    @Deprecated
-    public void deployApplication(Application app, String networkName, String tag, List<String> envVars) {
-        Optional<TopologyNetwork> net = mainTopology.getNetworks().stream().filter(it -> it.getName().equals(networkName)).findFirst();
-        if (!net.isPresent()) {
-            return;
-        }
-        if (envVars == null) {
-            envVars = new ArrayList<>();
-        }
-
-        manager.deployDeviceToNetwork(app, net.get(), mainTopology, tag, envVars);
-        apps.putDevice(app);
-    }
-
-    @Deprecated
-    public void deployApplication(Application app, String networkName, String tag) {
-        deployApplication(app, networkName, tag, null);
-    }
-
-    @Deprecated
-    public Application getApplication(String name) {
-        return apps.getDevice(name);
-    }
-
 
     /**
      * Accessor to the simulators NetworkManager, which is main controlling interface for simulated
      * network
+     *
      * @return current NetworkManager
      */
     public Manager getManager() {
@@ -149,7 +115,7 @@ public class PatriotHub {
      * Method cleans up all resources and destroys its instance
      */
     public void destroyHub() {
-        manager.cleanUp(mainTopology);
+        manager.cleanUpMainTopology(mainTopology);
         singleton = null;
     }
 
