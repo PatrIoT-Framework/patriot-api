@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patriot project
+ * Copyright 2021 Patriot project
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,137 +17,46 @@
 package io.patriot_framework.network.simulator.api.model;
 
 import io.patriot_framework.network.simulator.api.model.devices.Device;
-import io.patriot_framework.network.simulator.api.model.devices.router.Router;
-import io.patriot_framework.network.simulator.api.model.network.TopologyNetwork;
+import io.patriot_framework.network.simulator.api.model.network.Network;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
+import java.util.Collection;
 
 /**
- * Wrapper representing full network topology.
+ * Interface representing the network topology of simulation.
  */
-public class Topology {
-    /**
-     * Routers located in topology.
-     */
-    private List<Router> routers = new ArrayList<>();
+public interface Topology {
 
     /**
-     * Networks in topology.
+     * Getter for devices that are running inside the topology.
+     * @return devices
      */
-    private ArrayList<TopologyNetwork> networks;
-
-    private Set<Device> devices = new HashSet<>();
-
-    public Set<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Set<Device> devices) {
-        this.devices = devices;
-    }
-
-    public void addDevice(Device d) {
-        if (devices.contains(d)) {
-            return;
-        }
-        devices.add(d);
-    }
+    Collection<Device> getDevices();
 
     /**
-     * Instantiates a new Topology.
-     *
-     * @param routers    the routers
-     * @param networks the network top
+     * Setter for devices that are running inside the topology.
      */
-    public Topology(List<Router> routers, ArrayList<TopologyNetwork> networks) {
-        this.routers = routers;
-        this.networks = networks;
-    }
+    void setDevices(Collection<Device> devices);
 
     /**
-     * Instantiates a new Topology.
-     *
-     * @param networks the network top
+     * Getter for networks that are part of the topology.
+     * @return networks
      */
-    public Topology(ArrayList<TopologyNetwork> networks) {
-        this.networks = networks;
-    }
+    Collection<Network> getNetworks();
 
     /**
-     * Instantiates a new Topology.
-     *
-     * @param networkCount the network count
+     * Setter for networks that are part of the topology.
      */
-    public Topology(Integer networkCount) {
-        this.networks = new ArrayList<>(networkCount);
-    }
+    void setNetworks(Collection<Network> networks);
 
     /**
-     * Gets routers.
-     *
-     * @return the routers
+     * Adds single devices to the devices that are deployed inside the topology.
+     * @param device device to add
      */
-    public List<Router> getRouters() {
-        return routers;
-    }
+    void addDevice(Device device);
 
     /**
-     * Sets routers.
-     *
-     * @param routers the routers
+     * Adds single networks to the networks that are part of the topology.
+     * @param network network to add
      */
-    public void setRouters(List<Router> routers) {
-        this.routers = routers;
-    }
-
-    /**
-     * Gets network top.
-     *
-     * @return the network top
-     */
-    public ArrayList<TopologyNetwork> getNetworks() {
-        return networks;
-    }
-
-    /**
-     * Sets network top.
-     *
-     * @param networks the network top
-     */
-    public void setNetworks(ArrayList<TopologyNetwork> networks) {
-        this.networks = networks;
-    }
-
-    /**
-     * Finds router in list by name.
-     * @param name name of router
-     * @return router object
-     */
-    public Router findRouterByName(String name) {
-        for (Router r : routers) {
-            if (r.getName().equals(name)) {
-                return r;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Topology topology = (Topology) o;
-        return getRouters().equals(topology.getRouters()) &&
-                getNetworks().equals(topology.getNetworks());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getRouters(), getNetworks());
-    }
+    void addNetwork(Network network);
 }
